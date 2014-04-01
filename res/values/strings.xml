@@ -7,5 +7,9 @@
     <string name="title_activity_photos">Flickr Photos</string>
     <string name="login_label">Log in</string>
     <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="plus">+</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="hintText">New Tweet...</string>
 
 </resources>

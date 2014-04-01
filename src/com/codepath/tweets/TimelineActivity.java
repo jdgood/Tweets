@@ -4,13 +4,18 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.codepath.tweets.models.Tweet;
@@ -32,6 +37,8 @@ public class TimelineActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
+		
+		setupActionbar();
 		
 		tweetView = (PullToRefreshListView) findViewById(R.id.lvTweets);
 		tweetView.setOnScrollListener(new OnScrollListener() {
@@ -128,6 +135,27 @@ public class TimelineActivity extends Activity {
     			}
     		});
         }
+	}
+	
+	private void setupActionbar() {
+		ActionBar actionBar = getActionBar();
+	    // add the custom view to the action bar
+	    actionBar.setCustomView(R.layout.search_bar);
+	    
+	    Button btNewTweet = (Button) actionBar.getCustomView().findViewById(R.id.btNewTweet);
+	    btNewTweet.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onNewTweet(v);
+			}
+		});
+	    
+	    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);// | ActionBar.DISPLAY_SHOW_HOME);
+	}
+	
+	public void onNewTweet(View v) {
+		DialogFragment newFragment = new TweetDialog();
+	    newFragment.show(getFragmentManager(), "new_tweet");
 	}
 
 	@Override
