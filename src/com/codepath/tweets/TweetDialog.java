@@ -1,15 +1,21 @@
 package com.codepath.tweets;
 
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TweetDialog extends DialogFragment {
 	private EditText etBody;
@@ -27,6 +33,17 @@ public class TweetDialog extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					//submit tweet, refresh view
+					MyTwitterApp.getRestClient().sendTweet(etBody.getText().toString(), new JsonHttpResponseHandler() {
+		    			@Override
+		    			public void onSuccess(JSONObject jsonTweet) {
+							TimelineActivity.instance.onRefreshHandler();
+		    			}
+		    			
+		    			@Override
+		    			public void onFailure(Throwable arg0) {
+		    				Log.d("DEBUG", arg0.getMessage());
+		    			}
+		    		});
 				}
 			});
 		

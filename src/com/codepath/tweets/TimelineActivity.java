@@ -25,6 +25,8 @@ import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
 public class TimelineActivity extends Activity {
+	public static TimelineActivity instance;
+	
 	private TweetAdapter adapter;
 	private ArrayList<Tweet> results;
 	
@@ -37,6 +39,8 @@ public class TimelineActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
+		
+		instance = this;
 		
 		setupActionbar();
 		
