@@ -42,7 +42,7 @@ public class TweetDialog extends DialogFragment {
 					MyTwitterApp.getRestClient().sendTweet(etBody.getText().toString(), new JsonHttpResponseHandler() {
 		    			@Override
 		    			public void onSuccess(JSONObject jsonTweet) {
-							TimelineActivity.instance.onRefreshHandler();
+							TimelineActivity.homeTimeline.onRefreshHandler();
 		    			}
 		    			
 		    			@Override
