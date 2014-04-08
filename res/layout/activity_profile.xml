@@ -3,17 +3,17 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.tweets.ProfileActivity"
+    tools:context="com.codepath.tweets.activities.ProfileActivity"
     tools:ignore="MergeRootFrame" >
-
-    <fragment
-        android:id="@+id/fragmentUserTimeline"
-        android:name="com.codepath.tweets.fragments.UserTimelineFragment"
+    
+    <FrameLayout
+        android:id="@+id/flUserTimelineContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/llCounts" />
+        android:layout_below="@+id/llCounts" >
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/rlHeader"

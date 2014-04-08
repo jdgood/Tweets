@@ -34,46 +34,41 @@ public class TwitterClient extends OAuthBaseClient {
     
     public void getHomeTimeline(long lastTweet, boolean pullNew, AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("statuses/home_timeline.json");
-    	RequestParams params = new RequestParams();
-    	
-        if(lastTweet != 0) {
-        	if(pullNew) {
-        		params.put("since_id", Long.toString(lastTweet + 1));
-        		params.put("count", "200");
-        	}
-        	else {
-        		params.put("max_id", Long.toString(lastTweet - 1));
-        		params.put("count", "25");
-        	}
-        }
-        else {
-        	params.put("count", "25");
-        }
-    	client.get(url, params, handler);
+    	makeTimelineCall(lastTweet, pullNew, url, handler);
     }
     
     public void getMentionsTimeline(long lastTweet, boolean pullNew, AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("statuses/mentions_timeline.json");
-    	RequestParams params = new RequestParams();
-    	
-        if(lastTweet != 0) {
-        	if(pullNew) {
-        		params.put("since_id", Long.toString(lastTweet + 1));
-        		params.put("count", "200");
-        	}
-        	else {
-        		params.put("max_id", Long.toString(lastTweet - 1));
-        		params.put("count", "25");
-        	}
-        }
-        else {
-        	params.put("count", "25");
-        }
-    	client.get(url, params, handler);
+    	makeTimelineCall(lastTweet, pullNew, url, handler);
     }
     
-    public void getUserTimeline(long lastTweet, boolean pullNew, AsyncHttpResponseHandler handler) {
+    public void getUserTimeline(long lastTweet, boolean pullNew, String user, AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("statuses/user_timeline.json");
+    	
+    	RequestParams params = new RequestParams();
+    	
+        if(lastTweet != 0) {
+        	if(pullNew) {
+        		params.put("since_id", Long.toString(lastTweet + 1));
+        		params.put("count", "200");
+        	}
+        	else {
+        		params.put("max_id", Long.toString(lastTweet - 1));
+        		params.put("count", "25");
+        	}
+        }
+        else {
+        	params.put("count", "25");
+        }
+        
+        if(user != null) {
+        	params.put("screen_name", user);
+        }
+        
+    	client.get(url, params, handler);
+    }
+    
+    private void makeTimelineCall(long lastTweet, boolean pullNew, String url, AsyncHttpResponseHandler handler) {
     	RequestParams params = new RequestParams();
     	
         if(lastTweet != 0) {
@@ -92,9 +87,17 @@ public class TwitterClient extends OAuthBaseClient {
     	client.get(url, params, handler);
     }
     
-    public void getMyInfo(AsyncHttpResponseHandler handler) {
+    public void getUserInfo(String user, AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("account/verify_credentials.json");
-    	client.get(url, null, handler);
+    	
+    	RequestParams params = null;
+    	if(user != null) {
+    		params = new RequestParams();
+    		url = getApiUrl("users/show.json");
+    		params.put("screen_name", user);
+    	}
+    	
+    	client.get(url, params, handler);
     }
     
     public void sendTweet(String body, AsyncHttpResponseHandler handler) {
@@ -103,23 +106,4 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("status", body);
     	client.post(url, params, handler);
     }
-    
-    // CHANGE THIS
-    // DEFINE METHODS for different API endpoints here
-    public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-        // Can specify query string params directly or through RequestParams.
-        RequestParams params = new RequestParams();
-        params.put("format", "json");
-        client.get(apiUrl, params, handler);
-    }
-    
-    /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-     * 	  i.e getApiUrl("statuses/home_timeline.json");
-     * 2. Define the parameters to pass to the request (query or body)
-     *    i.e RequestParams params = new RequestParams("foo", "bar");
-     * 3. Define the request method and make a call to the client
-     *    i.e client.get(apiUrl, params, handler);
-     *    i.e client.post(apiUrl, params, handler);
-     */
 }

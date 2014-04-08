@@ -37,6 +37,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		
 		ImageView imageView = (ImageView) view.findViewById(R.id.ivProfile);
 		Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(imageView);
+		imageView.setTag(tweet.getUser().getScreenName());
 		
 		TextView nameView = (TextView) view.findViewById(R.id.tvName);
 		String formattedName = "<b>" + tweet.getUser().getName() + "</b><small><font color='#777777'> @" +

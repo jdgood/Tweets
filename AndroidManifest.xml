@@ -39,7 +39,7 @@
             android:label="@string/title_activity_timeline" >
         </activity>
         <activity
-            android:name="com.codepath.tweets.ProfileActivity"
+            android:name="com.codepath.tweets.activities.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
     </application>

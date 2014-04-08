@@ -12,13 +12,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.codepath.tweets.ProfileActivity;
 import com.codepath.tweets.R;
 import com.codepath.tweets.fragments.HomeTimelineFragment;
 import com.codepath.tweets.fragments.MentionsFragment;
 import com.codepath.tweets.fragments.TweetDialog;
 
 public class TimelineActivity extends FragmentActivity implements TabListener {
+	public static final String USER_EXTRA = "user";
+	
 	public static HomeTimelineFragment homeTimeline;
 	public static MentionsFragment mentionsTimeline;
 	
@@ -75,13 +76,15 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	}
 	
 	public void onProfile(String user) {
-		if(user == null) {
-			Intent i = new Intent(this, ProfileActivity.class);
-			startActivity(i);
+		Intent i = new Intent(this, ProfileActivity.class);
+		if(user != null) {
+			i.putExtra(USER_EXTRA, user);
 		}
-		else {
-			
-		}
+		startActivity(i);
+	}
+	
+	public void loadUserTimeline(View v) {
+		onProfile((String) v.getTag());
 	}
 
 
