@@ -8,8 +8,6 @@ import android.view.View;
 import com.codepath.oauth.OAuthLoginActivity;
 import com.codepath.tweets.R;
 import com.codepath.tweets.TwitterClient;
-import com.codepath.tweets.R.layout;
-import com.codepath.tweets.R.menu;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
 

@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.tweets.R;
-import com.codepath.tweets.R.id;
-import com.codepath.tweets.R.layout;
 import com.codepath.tweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 

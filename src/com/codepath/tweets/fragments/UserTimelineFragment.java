@@ -1,71 +1,29 @@
 package com.codepath.tweets.fragments;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.codepath.tweets.MyTwitterApp;
-import com.codepath.tweets.R;
-import com.codepath.tweets.adapters.TweetAdapter;
-import com.codepath.tweets.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.AbsListView;
-import android.widget.ListView;
-
-public class UserTimelineFragment extends TweetsListFragment {
+public class UserTimelineFragment extends TweetsListFragment {	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = super.onCreateView(inflater, container, savedInstanceState);
 		
-		MyTwitterApp.getRestClient().getUserTimeline(0, true, new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				results = Tweet.fromJson(jsonTweets);
-				
-				ListView lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
-				adapter = new TweetAdapter(getActivity(), results);
-				lvTweets.setAdapter(adapter);
-				if(results.size() > 0) {
-					firstTweet = results.get(0).getId();
-					lastTweet = results.get(results.size() - 1).getId();
-				}
-				loading = false;
-			}
-			
-			@Override
-			public void onFailure(Throwable arg0) {
-				Log.d("DEBUG", arg0.getMessage());
-			}
-		});
+		MyTwitterApp.getRestClient().getUserTimeline(0, true, new InitialHandler());
+		
+		return v;
 	}
 	
 	@Override
 	public void onRefreshHandler() {
 		if(!loading) {
         	loading = true;
-        	MyTwitterApp.getRestClient().getUserTimeline(firstTweet, true, new JsonHttpResponseHandler() {
-    			@Override
-    			public void onSuccess(JSONArray jsonTweets) {
-    				ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
-    				results.addAll(0, tweets);
-    				adapter.notifyDataSetChanged();
-    				if(tweets.size() > 0) {
-    					firstTweet = tweets.get(0).getId();
-    				}
-    				loading = false;
-    				tweetView.onRefreshComplete();
-    			}
-    			
-    			@Override
-    			public void onFailure(Throwable arg0) {
-    				Log.d("DEBUG", arg0.getMessage());
-    				loading = false;
-    				tweetView.onRefreshComplete();
-    			}
-    		});
+        	MyTwitterApp.getRestClient().getUserTimeline(firstTweet, true, new RefreshHandler());
         }
 		else {
 			tweetView.onRefreshComplete();
@@ -78,27 +36,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 		int lastInScreen = firstVisibleItem + visibleItemCount;
         if ((lastInScreen == totalItemCount) && !loading && !disableAutoRefresh) {
         	loading = true;
-        	MyTwitterApp.getRestClient().getUserTimeline(lastTweet, false, new JsonHttpResponseHandler() {
-    			@Override
-    			public void onSuccess(JSONArray jsonTweets) {
-    				ArrayList<Tweet> tweets = Tweet.fromJson(jsonTweets);
-    				results.addAll(tweets);
-    				adapter.notifyDataSetChanged();
-    				if(tweets.size() > 0) {
-    					lastTweet = tweets.get(tweets.size() - 1).getId();
-    				}
-    				else{
-    					disableAutoRefresh = true;
-    				}
-    				loading = false;
-    			}
-    			
-    			@Override
-    			public void onFailure(Throwable arg0) {
-    				Log.d("DEBUG", arg0.getMessage());
-    				loading = false;
-    			}
-    		});
+        	MyTwitterApp.getRestClient().getUserTimeline(lastTweet, false, new ScrollHandler());
         }
 	}
 }

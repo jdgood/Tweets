@@ -13,13 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.tweets.MyTwitterApp;
 import com.codepath.tweets.R;
-import com.codepath.tweets.R.id;
-import com.codepath.tweets.R.layout;
-import com.codepath.tweets.R.string;
 import com.codepath.tweets.activities.TimelineActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
