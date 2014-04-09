@@ -58,11 +58,11 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	    Tab tabHome = actionBar.newTab().setText("Home")
-	    		.setTag("HomeTimelineFragment").setIcon(R.drawable.ic_launcher)
+	    		.setTag("HomeTimelineFragment").setIcon(R.drawable.ic_home)
 	    		.setTabListener(this);
 	    
 	    Tab tabMentions = actionBar.newTab().setText("Mentions")
-	    		.setTag("MentionsFragment").setIcon(R.drawable.ic_launcher)
+	    		.setTag("MentionsFragment").setIcon(R.drawable.ic_at)
 	    		.setTabListener(this);
 	    
 	    actionBar.addTab(tabHome);
